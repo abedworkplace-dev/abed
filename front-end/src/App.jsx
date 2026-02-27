@@ -546,7 +546,7 @@ function App() {
       <div className="contact">
         <div className="container">
           <h1 className='title'>Contactez-moi</h1>
-          <form action="">
+          <form action="" onSubmit={sendmail}>
             <div className="input">
               <label htmlFor="">Nom & Prénoms</label>
               <input type="text" placeholder='Entrer votre nom et prénoms' onChange={(e) => { setName(e.target.value) }} required />
@@ -567,7 +567,7 @@ function App() {
               <label htmlFor="">Message</label>
               <textarea name="" id="" placeholder='Ecrivez votre message ici...' onChange={(e) => { setMessage(e.target.value) }} required></textarea>
             </div>
-            <button type='submit' onClick={sendmail}>Envoyer</button>
+            <button type='submit'>Envoyer</button>
           </form>
         </div>
       </div>
