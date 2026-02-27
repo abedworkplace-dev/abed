@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 const express = require("express")
 const cors = require("cors")
 const app = express()
@@ -9,16 +9,8 @@ app.use(express.json());
 
 
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: "abnegko@gmail.com",
-    pass: "alns idyd pqqu siaj"
-  }
-});
 
+const resend = new Resend("re_T9HnpRiF_Ku1LJVGFgVjSve3tRBrEhU9k");
 
 app.get("/", (req, res) => {
   res.send("server")
@@ -27,15 +19,25 @@ app.get("/", (req, res) => {
 app.post("/send-email", (req, res) => {
   const { name, email, tel, objet, message } = req.body;
 
-  transporter.sendMail({
-    from: email,
-    to: "abnegko@gmail.com",
+
+
+  resend.emails.send({
+    from: 'abedworkplace@gmail.com',
+    to: 'abnegko@gmail.com',
     subject: objet,
-    text: message,
-    replyTo: email
+    text: `
+Nom: ${name}
+Email: ${email}
+Téléphone: ${tel}
+Message: ${message}
+      `
+  }).then((result) =>
+    console.log(result)
+  ).catch((err) => {
+    console.log(err);
+    res.status(500).send("Erreur lors de l'envoi du mail");
   });
 
-  res.send("Email envoyé");
 });
 
 app.listen(3001, () => {

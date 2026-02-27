@@ -12,7 +12,7 @@ import { CiLink } from "react-icons/ci";
 import mixitup from "mixitup";
 import { SiVite, SiExpo, SiMysql } from "react-icons/si";
 import { RiReactjsFill } from "react-icons/ri";
-import { FaNodeJs, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaWhatsapp, FaReact, FaLinkedinIn, FaFacebookF, FaInstagram, FaLock, FaCheckSquare,FaCloudUploadAlt} from "react-icons/fa";
+import { FaNodeJs, FaHtml5, FaCss3Alt, FaJs, FaPhp, FaWhatsapp, FaReact, FaLinkedinIn, FaFacebookF, FaInstagram, FaLock, FaCheckSquare, FaCloudUploadAlt } from "react-icons/fa";
 import { FaRegSquareCheck } from "react-icons/fa6";
 import { CiGlobe, CiMobile1, CiDatabase, CiSearch, CiLocationOn } from "react-icons/ci";
 import { MdArrowOutward, MdArrowForward } from "react-icons/md";
@@ -20,7 +20,8 @@ import { IoIosPhonePortrait, IoIosSettings } from "react-icons/io";
 import { IoCheckmarkDoneSharp, IoCheckmarkOutline, IoPhonePortraitOutline } from "react-icons/io5";
 import { BiLogoGmail } from "react-icons/bi";
 import axios from "axios"
-import Swal from "sweetalert2";
+import emailjs from "@emailjs/browser";
+import Swal from 'sweetalert2';
 
 
 
@@ -64,11 +65,7 @@ function App() {
     }
   }, []);
 
-  /*useEffect(() => {
-    console.log(name,email,tel,objet,message)
-
-    return;
-  }, [name,email,tel,objet,message]);*/
+  
 
 
 
@@ -98,16 +95,20 @@ function App() {
 
   function sendmail(e) {
     e.preventDefault()
-    //console.log(name, email, tel, objet, message)
 
-    axios.post("https://abed-a21t.onrender.com/send-email", {
-      name: name,
-      email: email,
-      tel: tel,
-      objet: objet,
-      message: message
-    }).then((res) => {
-      if (res.data === "Email envoyé") {
+    emailjs.send(
+      "service_i8v436d",
+      "template_b9m2cap",
+      {
+        name: name,
+        email: email,
+        tel: tel,
+        objet: objet,
+        message: message
+      },
+      "HwMvvr7DT-GbrxbVP"
+    )
+      .then((res) => {
         Swal.fire({
           title: 'MESSAGE ENVOYÉ',
           text: 'Merci ! Nous avons bien reçu votre message, nous vous répondrons dans un bref délai.',
@@ -119,8 +120,13 @@ function App() {
           customClass: {
             confirmButton: 'my-custom-btn'
           }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.reload();
+          }
         });
-      } else {
+      })
+      .catch((error) => {
         Swal.fire({
           title: 'ERREUR',
           text: "Une erreur s'est produite. Merci de réessayer !",
@@ -130,18 +136,7 @@ function App() {
             confirmButton: 'my-custom-btn'
           }
         });
-      }
-    }).catch((err) => {
-      Swal.fire({
-        title: 'ERREUR',
-        text: "Une erreur s'est produite. Merci de réessayer !",
-        icon: 'error',
-        confirmButtonText: 'OK',
-        customClass: {
-          confirmButton: 'my-custom-btn'
-        }
       });
-    })
   }
 
 
@@ -573,7 +568,7 @@ function App() {
       </div>
 
 
-      <footer  ref={link4}>
+      <footer ref={link4}>
         <div className="container">
           <div className="content">
             <div className="content1">
@@ -602,9 +597,9 @@ function App() {
             <div className="content3">
               <h3>Suivez-nous</h3>
               <div className="reseaux">
-                <a href="mailto:abnegko@gmail.com"><FaLinkedinIn/></a>
-                <a href="tel:+2290168364255"><FaFacebookF/></a>
-                <a href="tel:+2290168364255"><FaInstagram/></a>
+                <a href="mailto:abnegko@gmail.com"><FaLinkedinIn /></a>
+                <a href="tel:+2290168364255"><FaFacebookF /></a>
+                <a href="tel:+2290168364255"><FaInstagram /></a>
               </div>
             </div>
           </div>
