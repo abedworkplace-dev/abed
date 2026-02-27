@@ -123,6 +123,7 @@ function App() {
         }).then((result) => {
           if (result.isConfirmed) {
             window.location.reload();
+            window.scrollTo(0, 0);
           }
         });
       })
