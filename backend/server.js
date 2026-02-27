@@ -1,32 +1,38 @@
 const nodemailer = require("nodemailer");
-const express=require("express")
-const cors=require("cors")
-const app=express()
+const express = require("express")
+const cors = require("cors")
+const app = express()
 
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
+
+
+
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     user: "abnegko@gmail.com",
     pass: "alns idyd pqqu siaj"
   }
 });
 
-app.get("/",(req,res)=>{
-    res.send("server")
+
+app.get("/", (req, res) => {
+  res.send("server")
 })
 
-app.post("/send-email",(req, res) => {
-  const { name,email,tel,objet,message } = req.body;
+app.post("/send-email", (req, res) => {
+  const { name, email, tel, objet, message } = req.body;
 
   transporter.sendMail({
     from: email,
     to: "abnegko@gmail.com",
     subject: objet,
     text: message,
-    replyTo:email
+    replyTo: email
   });
 
   res.send("Email envoyé");
